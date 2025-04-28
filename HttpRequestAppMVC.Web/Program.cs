@@ -1,7 +1,16 @@
+using HttpRequestAppMVC.Application.Interfaces;
+using HttpRequestAppMVC.Application.Services;
+using HttpRequestAppMVC.Domain.Interfaces;
+using HttpRequestAppMVC.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IRequestSenderRepository, RequestSenderRepository>();
+builder.Services.AddScoped<IRequestSenderService, RequestSenderService>();
+
+
 
 var app = builder.Build();
 
@@ -12,6 +21,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

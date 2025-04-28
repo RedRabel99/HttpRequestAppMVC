@@ -15,6 +15,7 @@ namespace HttpRequestAppMVC.Web.Controllers
 
         public IActionResult Index()
         {
+            HttpMethod method = HttpMethod.Get;
             return View();
         }
 
