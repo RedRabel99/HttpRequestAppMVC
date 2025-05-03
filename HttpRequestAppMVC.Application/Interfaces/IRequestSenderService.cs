@@ -1,4 +1,4 @@
-﻿using HttpRequestAppMVC.Application.ViewModels;
+﻿using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using System;
 using System.Collections.Generic;
 using System.Linq;

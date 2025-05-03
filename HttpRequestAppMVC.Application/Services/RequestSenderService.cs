@@ -1,5 +1,5 @@
 ﻿using HttpRequestAppMVC.Application.Interfaces;
-using HttpRequestAppMVC.Application.ViewModels;
+using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using HttpRequestAppMVC.Domain.Interfaces;
 using System;
 using System.Collections.Generic;

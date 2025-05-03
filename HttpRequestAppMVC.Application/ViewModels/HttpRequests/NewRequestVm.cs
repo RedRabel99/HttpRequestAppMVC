@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace HttpRequestAppMVC.Application.ViewModels;
+namespace HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 
 public class NewRequestVm
 {

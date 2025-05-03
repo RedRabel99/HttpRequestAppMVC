@@ -1,0 +1,63 @@
+﻿using HttpRequestAppMVC.Application.Interfaces;
+using HttpRequestAppMVC.Application.Services;
+using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace HttpRequestAppMVC.Web.Controllers;
+
+public class HttpRequestListController(IHttpRequestListService httpRequestListService) : Controller
+{
+    private readonly IHttpRequestListService httpRequestListService = httpRequestListService;
+    public IActionResult Index()
+    {
+        var model = httpRequestListService.GetAllHttpRequestLists();
+        return View(model);
+    }
+
+    public IActionResult Details(Guid id)
+    {
+        var model = httpRequestListService.GetHttpRequestListById(id);
+        return View(model);
+    }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(HttpRequestListVm model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+        var id = httpRequestListService.CreateHttpRequestList(model);
+        return RedirectToAction("Details", model.Id);
+    }
+
+    public IActionResult Edit(Guid id)
+    {
+        var model = httpRequestListService.GetHttpRequestListById(id);
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(HttpRequestListVm model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        
+        var id = httpRequestListService.EditRequestList(model);
+        return RedirectToAction("Details", id);
+    }
+
+    public IActionResult Delete(Guid id)
+    {
+        httpRequestListService.DeleteRequestList(id);
+        return RedirectToAction("Index");
+    }
+}
