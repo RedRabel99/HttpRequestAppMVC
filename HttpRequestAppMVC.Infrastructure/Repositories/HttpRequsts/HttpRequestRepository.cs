@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpRequestAppMVC.Infrastructure.Repositories;
+namespace HttpRequestAppMVC.Infrastructure.Repositories.HttpRequsts;
 
 public class HttpRequestRepository(AppDbContext dbContext) : IHttpRequestRepository
 {

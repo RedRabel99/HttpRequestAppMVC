@@ -1,51 +1,47 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using HttpRequestAppMVC.Application.Interfaces;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
+using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using HttpRequestAppMVC.Domain.Interfaces;
-using HttpRequestAppMVC.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpRequestAppMVC.Application.Services;
-
-public class HttpRequestService(IHttpRequestRepository httpRequestRepository, IMapper mapper) : IHttpRequestService
+namespace HttpRequestAppMVC.Application.Services
 {
-    private readonly IHttpRequestRepository httpRequestRepository = httpRequestRepository;
-    private readonly IMapper mapper = mapper;
-
-    public Guid AddRequestList(HttpRequestVm requestListVm)
+    public class HttpRequestService(IHttpRequestRepository httpRequestRepository, IRequestSenderService requestSenderService, IMapper mapper) : IHttpRequestService
     {
-        var requestList = mapper.Map<HttpRequestList>(requestListVm);
-        var id = httpRequestRepository.AddHtppRequestList(requestList);
-        return requestList.Id;
-    }
+        private readonly IHttpRequestRepository httpRequestRepository = httpRequestRepository;
+        private readonly IRequestSenderService requestSenderService = requestSenderService;
+        private readonly IMapper mapper = mapper;
 
-    public Guid EditRequestList(HttpRequestVm requestListVm)
-    {
-        var requestListModel = mapper.Map<HttpRequestList>(requestListVm);
-        httpRequestRepository.UpdateHttpRequestList(requestListModel);
-        return requestListModel.Id;
-    }
-
-    public ListForHttpRequestListVm GetAllRequestLists()
-    {
-        var requestList = httpRequestRepository.GetAllHttpRequestLists()
-            .ProjectTo<HttpRequestListVm>(mapper.ConfigurationProvider).ToList();
-
-        return new ListForHttpRequestListVm
+        public Guid AddHttpRequest(HttpRequestVm httpRequestVm)
         {
-            HttpRequestLists = requestList,
-            Count = requestList.Count
-        };
-    }
+            var httpRequest = mapper;
+            return Guid.NewGuid();
+        }
 
-    public HttpRequestVm GetRequestListById(Guid id)
-    {
-        var requestList = httpRequestRepository.GetRequestListById(id);
-        return mapper.Map<HttpRequestVm>(requestList);
+        public List<HttpRequestVm> GetAllHttpRequestByHttpRequestListId(Guid requestListId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public HttpRequestResponseVm GetByIdAndSendRequest(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveHttpRequest(HttpRequestVm httpRequestVm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<HttpRequestResponseVm> SendHttpRequest(HttpRequestVm httpRequestVm)
+        {
+            var response = await requestSenderService.SendRequest(httpRequestVm);
+            return response;
+        }
     }
 }

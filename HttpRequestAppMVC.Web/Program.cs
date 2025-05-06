@@ -3,6 +3,7 @@ using HttpRequestAppMVC.Application.Services;
 using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Infrastructure;
 using HttpRequestAppMVC.Infrastructure.Repositories;
+using HttpRequestAppMVC.Infrastructure.Repositories.HttpRequsts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

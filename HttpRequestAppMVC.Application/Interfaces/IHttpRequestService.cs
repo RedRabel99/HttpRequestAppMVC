@@ -1,5 +1,5 @@
 ﻿using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
-using HttpRequestAppMVC.Domain.Models;
+using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +10,10 @@ namespace HttpRequestAppMVC.Application.Interfaces;
 
 public interface IHttpRequestService
 {
-    public Guid AddRequestList(HttpRequestVm requestListVm);
-    public Guid EditRequestList(HttpRequestVm requestListVm);
-    public HttpRequestVm GetRequestListById(Guid id);
-    public ListForHttpRequestListVm GetAllRequestLists();
+    public Guid AddHttpRequest(HttpRequestVm httpRequestVm);
+    public void RemoveHttpRequest(HttpRequestVm httpRequestVm);
+    public List<HttpRequestVm> GetAllHttpRequestByHttpRequestListId(Guid requestListId);
+    public HttpRequestResponseVm GetByIdAndSendRequest(Guid id);
+
+    public Task<HttpRequestResponseVm> SendHttpRequest(HttpRequestVm httpRequestVm);
 }

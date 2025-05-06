@@ -14,7 +14,7 @@ namespace HttpRequestAppMVC.Domain.Models
         public string? Body { get; set; }
         public Guid RequestListId { get; set; }
         public virtual HttpRequestList RequestList { get; set; }
-        public virtual ICollection<RequestHeaderValue> HeaderValues { get; set; } = new List<RequestHeaderValue>();
+        public virtual ICollection<HttpRequestHeader> HttpRequestHeaders { get; set; } = new List<HttpRequestHeader>();
         public virtual ICollection<HttpResponse> ResponseHistory { get; set; } = new List<HttpResponse>();
 
     }

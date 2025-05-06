@@ -9,5 +9,5 @@ namespace HttpRequestAppMVC.Application.Interfaces;
 
 public interface IRequestSenderService
 {
-    public Task<NewRequestVm> SendRequest(NewRequestVm model);
+    public Task<HttpRequestResponseVm> SendRequest(HttpRequestVm model);
 }

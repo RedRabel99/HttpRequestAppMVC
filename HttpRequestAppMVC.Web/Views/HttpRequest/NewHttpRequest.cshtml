@@ -1,0 +1,90 @@
+﻿@model HttpRequestAppMVC.Application.ViewModels.HttpRequests.NewHttpRequestVm
+
+@{
+    ViewData["Title"] = "NewHttpRequest";
+}
+
+<h1>NewHttpRequest</h1>
+
+<h4>NewHttpRequestVm</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>Url</label>
+                @Html.TextBoxFor(url => url.HttpRequest.Url, new{@class ="form-control"})
+                <label>Method</label>
+                @Html.DropDownListFor(method => method.HttpRequest.Method, new SelectList( new[]{"GET", "POST", "PUT", "DELETE"}),"--Select--", new {@class = "form-control"})
+                <label>Body</label>
+                @Html.TextAreaFor(body => body.HttpRequest.Body, new { @class = "form-control" })
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Header</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="header-wrapper">
+                    
+                    @for (var i = 0; i < Model.HttpRequest.HttpRequestHeaders.Count(); i++)
+                    {
+                        <tr>
+                            <td> @Html.TextBoxFor(m => m.HttpRequest.HttpRequestHeaders[i].Header, new { @class = "form-control" })</td>
+                            <td> @Html.TextBoxFor(model => model.HttpRequest.HttpRequestHeaders[i].Value, new { @class = "form-control" })</td>
+                        </tr>
+                    }
+                        <tr class="header-template d-none">
+                            <td><input name="HttpRequest.HttpRequestHeaders[__index__].Header" class="form-control" /></td>
+                            <td><input name="HttpRequest.HttpRequestHeaders[__index__].Value" class="form-control" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <input type="button" id="add-header" value="Add header" class="btn btn-secondary" />
+                
+                
+                <input type="submit" name="action" value="send" class="btn btn-primary" />
+                <input type="submit" name="action" value="save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    @if(Model.HttpResponse != null)
+    {
+        <div class="col-md-8 offset-md-1">
+            <div class="card mt-4 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">HTTP Response</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Status Code:</strong> @Model.HttpResponse.StatusCode</p>
+                    <label for="responseBody" class="form-label">Response Body</label>
+                    <textarea id="responseBody" readonly class="form-control" rows="12" style="white-space: pre-wrap;">@Model.HttpResponse.ResponseMessage</textarea>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+            let headerIndex = @Model.HttpRequest.HttpRequestHeaders.Count;
+            console.log(headerIndex);
+            $('#add-header').on('click', function(){
+                console.log("XDDD")
+                let $template = $('.header-template').clone();
+                let html = $template.html().replaceAll('__index__', headerIndex);
+                $('.header-wrapper').append('<tr>' + html + '</tr>');
+                headerIndex++;
+            });
+        })
+        
+        console.log("Script in section");
+    </script>
+}
+
