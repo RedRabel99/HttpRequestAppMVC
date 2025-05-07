@@ -11,6 +11,14 @@ namespace HttpRequestAppMVC.Web.Controllers
         public IActionResult Index() { 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Details(Guid id)
+        {
+            var httpRequest = httpRequestService.GetHttpRequestById(id);
+            return View(httpRequest);
+        }
+
         [HttpGet]
         public IActionResult NewHttpRequest()
         {
@@ -42,7 +50,7 @@ namespace HttpRequestAppMVC.Web.Controllers
             if(action == "save")
             {
                 var id = httpRequestService.AddHttpRequest(newHttpRequest.HttpRequest);
-                return RedirectToAction("Details", id);
+                return RedirectToAction("Details", new {id});
             }
             return View(newHttpRequest);
         }

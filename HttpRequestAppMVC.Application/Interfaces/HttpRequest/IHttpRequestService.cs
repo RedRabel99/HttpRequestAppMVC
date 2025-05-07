@@ -11,6 +11,7 @@ namespace HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 public interface IHttpRequestService
 {
     public Guid AddHttpRequest(HttpRequestVm httpRequestVm);
+    public HttpRequestVm GetHttpRequestById(Guid id);
     public void RemoveHttpRequest(HttpRequestVm httpRequestVm);
     public List<HttpRequestVm> GetAllHttpRequestByHttpRequestListId(Guid requestListId);
     public HttpRequestResponseVm GetByIdAndSendRequest(Guid id);

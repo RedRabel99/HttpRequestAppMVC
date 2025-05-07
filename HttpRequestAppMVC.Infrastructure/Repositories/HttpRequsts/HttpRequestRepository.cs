@@ -71,17 +71,17 @@ public class HttpRequestRepository(AppDbContext dbContext) : IHttpRequestReposit
         return header;
     }
 
-    public Guid AddHttpHeader(HttpHeader httpHeader)
+    public HttpHeader AddHttpHeader(HttpHeader httpHeader)
     {
         dbContext.HttpHeaders.Add(httpHeader);
         dbContext.SaveChanges();
-        return httpHeader.Id;
+        return httpHeader;
     }
 
-    public Guid AddHttpHeaderValue(HttpHeaderValue httpHeaderValue)
+    public HttpHeaderValue AddHttpHeaderValue(HttpHeaderValue httpHeaderValue)
     {
         dbContext.HttpHeaderValues.Add(httpHeaderValue);
         dbContext.SaveChanges();
-        return httpHeaderValue.Id;
+        return httpHeaderValue;
     }
 }

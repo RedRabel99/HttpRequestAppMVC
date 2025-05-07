@@ -19,7 +19,7 @@ namespace HttpRequestAppMVC.Domain.Interfaces
         HttpHeader? GetHttpHeaderByName(string name);
         HttpHeaderValue? GetHttpHeaderValueByValue(string value);
 
-        public Guid AddHttpHeader(HttpHeader httpHeader);
-        public Guid AddHttpHeaderValue(HttpHeaderValue httpHeaderValue);
+        public HttpHeader AddHttpHeader(HttpHeader httpHeader);
+        public HttpHeaderValue AddHttpHeaderValue(HttpHeaderValue httpHeaderValue);
     }
 }

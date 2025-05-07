@@ -10,16 +10,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpRequestAppMVC.Application.Services.HttpRequestList;
+namespace HttpRequestAppMVC.Application.Services;
 
-public class HttpRequestListService(IHttpRequestListRepository httpRequestListRepository, IMapper mapper) : IHttpRequestListService
+public class HttpRequestListService : IHttpRequestListService
 {
-    private readonly IHttpRequestListRepository httpRequestListRepository = httpRequestListRepository;
-    private readonly IMapper mapper = mapper;
+    private readonly IHttpRequestListRepository httpRequestListRepository;
+    private readonly IMapper mapper;
+
+    public HttpRequestListService(IHttpRequestListRepository httpRequestListRepository, IMapper mapper)
+    {
+        this.httpRequestListRepository = httpRequestListRepository;
+        this.mapper = mapper;
+    }
 
     public Guid CreateHttpRequestList(HttpRequestListVm model)
     {
         var requestList = mapper.Map<HttpRequestList>(model);
+        // Add this alias directive at the top of the file
         var id = httpRequestListRepository.CreateHttpRequestList(requestList);
         return id;
     }

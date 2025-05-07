@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpRequestAppMVC.Application.Services.HttpRequest;
+namespace HttpRequestAppMVC.Application.Services.HttpRequestServices;
 
 public class RequestSenderService(IRequestSenderRepository requestSenderRepository) : IRequestSenderService
 {

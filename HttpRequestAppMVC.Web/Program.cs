@@ -1,7 +1,7 @@
 using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
-using HttpRequestAppMVC.Application.Services.HttpRequest;
-using HttpRequestAppMVC.Application.Services.HttpRequestList;
+using HttpRequestAppMVC.Application.Services;
+using HttpRequestAppMVC.Application.Services.HttpRequestServices;
 using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Infrastructure;
 using HttpRequestAppMVC.Infrastructure.Repositories;
@@ -18,6 +18,8 @@ builder.Services.AddTransient<IHttpRequestService, HttpRequestService>();
 builder.Services.AddTransient<IHttpRequestRepository, HttpRequestRepository>();
 builder.Services.AddTransient<IHttpRequestListRepository, HttpRequestListRepository>();
 builder.Services.AddTransient<IHttpRequestListService, HttpRequestListService>();
+builder.Services.AddTransient<IHttpHeaderService, HttpHeaderService>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<AppDbContext>(options =>
