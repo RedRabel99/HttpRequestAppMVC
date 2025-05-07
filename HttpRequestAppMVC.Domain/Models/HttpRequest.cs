@@ -8,7 +8,7 @@ namespace HttpRequestAppMVC.Domain.Models
 {
     public class HttpRequest : BaseEntity
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public string Url { get; set; }
         public string Method { get; set; }
         public string? Body { get; set; }

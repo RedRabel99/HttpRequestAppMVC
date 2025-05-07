@@ -1,4 +1,4 @@
-﻿using HttpRequestAppMVC.Application.Interfaces;
+﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using HttpRequestAppMVC.Domain.Interfaces;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpRequestAppMVC.Application.Services;
+namespace HttpRequestAppMVC.Application.Services.HttpRequest;
 
 public class RequestSenderService(IRequestSenderRepository requestSenderRepository) : IRequestSenderService
 {

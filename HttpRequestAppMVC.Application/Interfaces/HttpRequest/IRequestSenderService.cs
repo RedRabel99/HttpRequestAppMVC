@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpRequestAppMVC.Application.Interfaces;
+namespace HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 
 public interface IRequestSenderService
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpRequestAppMVC.Application.Interfaces;
+namespace HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
 
 public interface IHttpRequestListService
 {

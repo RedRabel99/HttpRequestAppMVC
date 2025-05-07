@@ -24,9 +24,24 @@ public class HttpRequestVm : IMapFrom<HttpRequest>
             .ForMember(
             dest => dest.HttpRequestHeaders,
             opt => opt.MapFrom(
-                src => src.HttpRequestHeaders.ToDictionary(
-                    x => x.HttpHeader, x => x.HttpHeaderValue)));
-
+                src => src.HttpRequestHeaders
+                    .Select(
+                        x => new HttpRequestHeaderVm
+                        {
+                            Header = x.HttpHeader.Name,
+                            Value = x.HttpHeaderValue.Value,
+                        })));
+        profile.CreateMap<HttpRequestVm, HttpRequest>()
+            .ForMember(dest => dest.HttpRequestHeaders,
+                opt => opt.MapFrom(src => src.HttpRequestHeaders.Select(x =>
+                    new HttpRequestHeader
+                    {
+                        HttpHeader = new HttpHeader { Name = x.Header },
+                        HttpHeaderValue = new HttpHeaderValue { Value = x.Value }
+                    }
+                    )
+                )
+            );
         //profile.CreateMap<HttpRequestVm, HttpRequest>()
         //    .ForMember(
         //    dest => dest.HttpRequestHeaders,

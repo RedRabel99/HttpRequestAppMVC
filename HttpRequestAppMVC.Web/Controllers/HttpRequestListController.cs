@@ -1,4 +1,4 @@
-﻿using HttpRequestAppMVC.Application.Interfaces;
+﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
 using HttpRequestAppMVC.Application.Services;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
 using Microsoft.AspNetCore.Http;

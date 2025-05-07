@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HttpRequestAppMVC.Application.Interfaces;
+using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
 using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Domain.Models;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpRequestAppMVC.Application.Services;
+namespace HttpRequestAppMVC.Application.Services.HttpRequestList;
 
 public class HttpRequestListService(IHttpRequestListRepository httpRequestListRepository, IMapper mapper) : IHttpRequestListService
 {

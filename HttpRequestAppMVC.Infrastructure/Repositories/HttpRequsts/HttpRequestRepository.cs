@@ -53,41 +53,35 @@ public class HttpRequestRepository(AppDbContext dbContext) : IHttpRequestReposit
         return requests;
     }
 
-    public Guid AddHtppRequestList(HttpRequestList requestList)
-    {
-        dbContext.HttpRequestLists.Add(requestList);
-        dbContext.SaveChanges();
-        return requestList.Id;
-    }
-
-
-    public void MoveHttpRequestToAnotherList(Guid httpRequestId, Guid requestListId)
-    {
-        var item = dbContext.HttpRequests.FirstOrDefault(i => i.Id == httpRequestId);
-        if (item != null)
-        {
-            item.RequestListId = requestListId;
-            dbContext.SaveChanges();
-        }
-    }
-
-    public void UpdateHttpRequestList(HttpRequestList requestList)
-    {
-        dbContext.Attach(requestList);
-        dbContext.Entry(requestList).Property("Name").IsModified = true;
-        dbContext.Entry(requestList).Property("Description").IsModified = true;
-        dbContext.SaveChanges();
-    }
-
-    public IQueryable<HttpRequestList> GetAllHttpRequestLists()
-    {
-        var requestLists = dbContext.HttpRequestLists;
-        return requestLists;
-    }
-
     public HttpRequestList GetRequestListById(Guid id)
     {
         var requestList = dbContext.HttpRequestLists.FirstOrDefault(r => r.Id == id);
         return requestList;
+    }
+
+    public HttpHeader? GetHttpHeaderByName(string name)
+    {
+        var header = dbContext.HttpHeaders.FirstOrDefault(h => h.Name == name);
+        return header;
+    }
+
+    public HttpHeaderValue? GetHttpHeaderValueByValue(string value)
+    {
+        var header = dbContext.HttpHeaderValues.FirstOrDefault(h => h.Value == value);
+        return header;
+    }
+
+    public Guid AddHttpHeader(HttpHeader httpHeader)
+    {
+        dbContext.HttpHeaders.Add(httpHeader);
+        dbContext.SaveChanges();
+        return httpHeader.Id;
+    }
+
+    public Guid AddHttpHeaderValue(HttpHeaderValue httpHeaderValue)
+    {
+        dbContext.HttpHeaderValues.Add(httpHeaderValue);
+        dbContext.SaveChanges();
+        return httpHeaderValue.Id;
     }
 }

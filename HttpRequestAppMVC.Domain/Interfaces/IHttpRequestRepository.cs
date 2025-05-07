@@ -13,18 +13,13 @@ namespace HttpRequestAppMVC.Domain.Interfaces
         public HttpRequest GetHttpRequestById(Guid id);
         public Guid UpdateHttpRequest(HttpRequest httpRequest);
         public void DeleteHttpRequest(Guid id);
-
         public IQueryable<HttpRequest> GetAllHttpRequests();
-
         public IQueryable<HttpRequest> GetHttpRequestsByRequestListId(Guid requestListId);
-        public IQueryable<HttpRequestList> GetAllHttpRequestLists();
-        public HttpRequestList GetRequestListById(Guid id);
-        public Guid AddHtppRequestList(HttpRequestList requestList);
 
-        public void MoveHttpRequestToAnotherList(Guid httpRequestId, Guid requestListId);
+        HttpHeader? GetHttpHeaderByName(string name);
+        HttpHeaderValue? GetHttpHeaderValueByValue(string value);
 
-        public void UpdateHttpRequestList(HttpRequestList requestList);
-
-
+        public Guid AddHttpHeader(HttpHeader httpHeader);
+        public Guid AddHttpHeaderValue(HttpHeaderValue httpHeaderValue);
     }
 }

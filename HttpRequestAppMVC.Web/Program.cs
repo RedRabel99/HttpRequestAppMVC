@@ -1,5 +1,7 @@
-using HttpRequestAppMVC.Application.Interfaces;
-using HttpRequestAppMVC.Application.Services;
+using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
+using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
+using HttpRequestAppMVC.Application.Services.HttpRequest;
+using HttpRequestAppMVC.Application.Services.HttpRequestList;
 using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Infrastructure;
 using HttpRequestAppMVC.Infrastructure.Repositories;

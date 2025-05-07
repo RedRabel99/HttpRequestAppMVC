@@ -1,4 +1,4 @@
-﻿using HttpRequestAppMVC.Application.Interfaces;
+﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +28,7 @@ namespace HttpRequestAppMVC.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> NewHttpRequest(NewHttpRequestVm newHttpRequest, string action)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) 
             {
                 return View(newHttpRequest);
             }
