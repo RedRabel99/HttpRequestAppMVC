@@ -12,9 +12,11 @@ namespace HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 
 public class HttpRequestVm : IMapFrom<HttpRequest>
 {
+    public string Name { get; set; }
     public string Url { get; set; } = string.Empty;
     public string Method { get; set; }
     public string Body { get; set; } = string.Empty;
+    public string RequestListId { get; set; }
 
     public List<HttpRequestHeaderVm> HttpRequestHeaders { get; set; } = new List<HttpRequestHeaderVm>();
 

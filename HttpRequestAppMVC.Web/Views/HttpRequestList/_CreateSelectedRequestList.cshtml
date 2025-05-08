@@ -1,0 +1,8 @@
+﻿@model SelectedHttpRequestListVm
+
+<select id="RequestListId" name="HttpRequest.RequestListId" class="form-control">
+    @foreach (var list in Model.RequestLists)
+    {
+        <option value="@list.Id">@list.Name</option>
+    }
+</select>

@@ -1,6 +1,7 @@
 ﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
 using HttpRequestAppMVC.Application.Services;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
+using HttpRequestAppMVC.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,5 +60,28 @@ public class HttpRequestListController(IHttpRequestListService httpRequestListSe
     {
         httpRequestListService.DeleteRequestList(id);
         return RedirectToAction("Index");
+    }
+    [HttpGet]
+    public IActionResult CreateSelectedList()
+    {
+        var ListForHttpRequestList = httpRequestListService.GetAllHttpRequestLists();
+        var model = new SelectedHttpRequestListVm
+        {
+            RequestLists = ListForHttpRequestList.HttpRequestLists,
+            SelectedRequestListId = ListForHttpRequestList.HttpRequestLists[0].Id
+        };
+        return PartialView("_CreateSelectedRequestList", model);
+    }
+
+    [HttpPost]
+    [AutoValidateAntiforgeryToken]
+    public IActionResult CreateSelectedRequestList(SelectedHttpRequestListVm model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        return View(model);
     }
 }
