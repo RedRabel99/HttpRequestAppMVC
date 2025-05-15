@@ -7,19 +7,21 @@ namespace HttpRequestAppMVC.Web.Controllers;
 
 public class HttpRequestListController(IHttpRequestListService httpRequestListService) : Controller
 {
-    private readonly IHttpRequestListService httpRequestListService = httpRequestListService;
+    [HttpGet]
     public IActionResult Index()
     {
         var model = httpRequestListService.GetAllHttpRequestLists();
         return View(model);
     }
 
+    [HttpGet]
     public IActionResult Details(Guid id)
     {
         var model = httpRequestListService.GetHttpRequestListById(id);
         return View(model);
     }
 
+    [HttpGet]
     public IActionResult Create()
     {
         return View();
@@ -32,9 +34,10 @@ public class HttpRequestListController(IHttpRequestListService httpRequestListSe
         if (!ModelState.IsValid)
             return View(model);
         var id = httpRequestListService.CreateHttpRequestList(model);
-        return RedirectToAction(nameof(Details), new{id});
+        return RedirectToAction(nameof(Details), new { id });
     }
 
+    [HttpGet]
     public IActionResult Edit(Guid id)
     {
         var model = httpRequestListService.GetHttpRequestListById(id);
@@ -49,25 +52,28 @@ public class HttpRequestListController(IHttpRequestListService httpRequestListSe
         {
             return View(model);
         }
-        
+
         var id = httpRequestListService.EditRequestList(model);
         return RedirectToAction(nameof(Details), new { id });
     }
 
+    [HttpDelete]
     public IActionResult Delete(Guid id)
     {
         httpRequestListService.DeleteRequestList(id);
-        return RedirectToAction("Index");
+        return RedirectToAction(nameof(Index));
     }
+
     [HttpGet]
-    public IActionResult CreateSelectedList()
+    public IActionResult CreateSelectedRequestList()
     {
         var ListForHttpRequestList = httpRequestListService.GetAllHttpRequestLists();
         var model = new SelectedHttpRequestListVm
         {
             RequestLists = ListForHttpRequestList.HttpRequestLists,
-            SelectedRequestListId = ListForHttpRequestList.HttpRequestLists[0].Id
+            SelectedRequestListId = Guid.Empty
         };
+
         return PartialView("_CreateSelectedRequestList", model);
     }
 
@@ -77,7 +83,7 @@ public class HttpRequestListController(IHttpRequestListService httpRequestListSe
     {
         if (!ModelState.IsValid)
         {
-            return View(model);
+            return PartialView("_CreateSelectedRequestList", model);
         }
 
         return View(model);
