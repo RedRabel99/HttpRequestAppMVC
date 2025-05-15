@@ -23,10 +23,9 @@ public class HttpRequestListService : IHttpRequestListService
         this.mapper = mapper;
     }
 
-    public Guid CreateHttpRequestList(HttpRequestListVm model)
+    public Guid CreateHttpRequestList(CreateHttpRequestListVm model)
     {
         var requestList = mapper.Map<HttpRequestList>(model);
-        // Add this alias directive at the top of the file
         var id = httpRequestListRepository.CreateHttpRequestList(requestList);
         return id;
     }

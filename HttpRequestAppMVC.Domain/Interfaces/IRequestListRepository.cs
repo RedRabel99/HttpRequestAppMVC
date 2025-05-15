@@ -12,6 +12,6 @@ public interface IHttpRequestListRepository
     public Guid CreateHttpRequestList(HttpRequestList requestList);
     public void DeleteHttpRequestList(Guid id);
     public IQueryable<HttpRequestList> GetAllHttpRequestLists();
-    public HttpRequestList GetHttpRequestListById(Guid id);
+    public HttpRequestList? GetHttpRequestListById(Guid id);
     public Guid UpdateHttpRequestList(HttpRequestList requestList);
 }

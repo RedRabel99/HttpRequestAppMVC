@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using HttpRequestAppMVC.Domain.Interfaces;
@@ -35,7 +36,6 @@ public class HttpRequestService : IHttpRequestService
         }
         var httpRequest = mapper.Map<HttpRequest>(httpRequestVm);
         httpRequest.HttpRequestHeaders = x;
-        httpRequest.RequestListId = new Guid("B56D5C46-EE78-42DE-A437-08DD8910376D");
         var id = httpRequestRepository.AddHttpRequest(httpRequest);
 
         return id;
@@ -43,7 +43,9 @@ public class HttpRequestService : IHttpRequestService
 
     public List<HttpRequestVm> GetAllHttpRequestByHttpRequestListId(Guid requestListId)
     {
-        throw new NotImplementedException();
+        var httpRequestList = httpRequestRepository.GetHttpRequestsByRequestListId(requestListId);
+        var httpRequestListVm = httpRequestList.ProjectTo<HttpRequestVm>(mapper.ConfigurationProvider).ToList();
+        return httpRequestListVm;
     }
 
     public HttpRequestResponseVm GetByIdAndSendRequest(Guid id)
@@ -60,7 +62,7 @@ public class HttpRequestService : IHttpRequestService
 
     public void RemoveHttpRequest(HttpRequestVm httpRequestVm)
     {
-        throw new NotImplementedException();
+        httpRequestRepository.DeleteHttpRequest(httpRequestVm.Id);
     }
 
     public async Task<HttpRequestResponseVm> SendHttpRequest(HttpRequestVm httpRequestVm)

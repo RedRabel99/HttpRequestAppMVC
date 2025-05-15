@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HttpRequestAppMVC.Application.Mapping;
+using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
 using HttpRequestAppMVC.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,13 @@ namespace HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 
 public class HttpRequestVm : IMapFrom<HttpRequest>
 {
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public string Url { get; set; } = string.Empty;
     public string Method { get; set; }
     public string Body { get; set; } = string.Empty;
     public string RequestListId { get; set; }
-
+    public HttpRequestListVm HttpRequestList {  get; set; }
     public List<HttpRequestHeaderVm> HttpRequestHeaders { get; set; } = new List<HttpRequestHeaderVm>();
 
     public void Mapping(Profile profile)

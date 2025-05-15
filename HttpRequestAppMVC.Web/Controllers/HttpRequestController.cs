@@ -38,7 +38,7 @@ namespace HttpRequestAppMVC.Web.Controllers
         {
             if (!ModelState.IsValid) 
             {
-                return View(newHttpRequest);
+                return View(newHttpRequest); 
             }
 
             if (action == "send")

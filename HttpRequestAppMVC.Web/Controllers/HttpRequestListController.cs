@@ -1,8 +1,6 @@
 ﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
-using HttpRequestAppMVC.Application.Services;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
 using HttpRequestAppMVC.Web.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HttpRequestAppMVC.Web.Controllers;
@@ -29,12 +27,12 @@ public class HttpRequestListController(IHttpRequestListService httpRequestListSe
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(HttpRequestListVm model)
+    public IActionResult Create(CreateHttpRequestListVm model)
     {
         if (!ModelState.IsValid)
             return View(model);
         var id = httpRequestListService.CreateHttpRequestList(model);
-        return RedirectToAction("Details", model.Id);
+        return RedirectToAction(nameof(Details), new{id});
     }
 
     public IActionResult Edit(Guid id)
@@ -53,7 +51,7 @@ public class HttpRequestListController(IHttpRequestListService httpRequestListSe
         }
         
         var id = httpRequestListService.EditRequestList(model);
-        return RedirectToAction("Details", id);
+        return RedirectToAction(nameof(Details), new { id });
     }
 
     public IActionResult Delete(Guid id)

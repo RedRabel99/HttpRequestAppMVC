@@ -123,10 +123,32 @@
           modal.find('.modal-body input').val(recipient)
         });
 
-                $('#saveModal').on('show.bs.modal', function () {
+        //         $('#saveModal').on('show.bs.modal', function () {
+        //     $.get('/HttpRequestList/CreateSelectedList', function (html) {
+        //         $('#request-list-select-container').html(html);
+        //     });
+        // });
+                $(document).ready(function() {
             $.get('/HttpRequestList/CreateSelectedList', function (html) {
-                $('#request-list-select-container').html(html);
+                // Store the HTML in a hidden container
+                $('<div id="preloaded-content" style="display:none;"></div>')
+                    .html(html)
+                    .appendTo('body');
             });
+        });
+
+        // When modal opens, use the preloaded content if available
+        $('#saveModal').on('show.bs.modal', function () {
+            if ($('#preloaded-content').length) {
+                $('#request-list-select-container').html($('#preloaded-content').html());
+                $('#preloaded-content').remove(); // Optional: remove after using
+            } else {
+                // Fallback if preloaded content isn't ready
+                $('#request-list-select-container').html('<div class="placeholder-select">Loading...</div>');
+                $.get('/HttpRequestList/CreateSelectedList', function (html) {
+                    $('#request-list-select-container').html(html);
+                });
+            }
         });
 
         console.log("Script in section");

@@ -1,5 +1,6 @@
 ﻿using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,20 +32,26 @@ namespace HttpRequestAppMVC.Infrastructure.Repositories.HttpRequsts
 
         public IQueryable<HttpRequestList> GetAllHttpRequestLists()
         {
-            return dbContext.HttpRequestLists;
+            return dbContext.HttpRequestLists.Include(rl => rl.HttpRequests);
         }
 
-        public HttpRequestList GetHttpRequestListById(Guid id)
+        public HttpRequestList? GetHttpRequestListById(Guid id)
         {
-            return dbContext.HttpRequestLists.FirstOrDefault(r => r.Id == id);           
+            return dbContext.HttpRequestLists.Include(rl => rl.HttpRequests).FirstOrDefault(r => r.Id == id);         
         }
 
         public Guid UpdateHttpRequestList(HttpRequestList requestList)
         {
-            dbContext.Attach(requestList);
-            dbContext.Entry(requestList).Property("Name").IsModified = true;
-            dbContext.Entry(requestList).Property("Description").IsModified = true;
+            var entity = dbContext.HttpRequestLists.FirstOrDefault(x => x.Id == requestList.Id);
+
+            entity.Name = requestList.Name;
+            entity.Description = requestList.Description;
             dbContext.SaveChanges();
+
+            //dbContext.Attach(requestList);
+            //dbContext.Entry(requestList).Property("Name").IsModified = true;
+            //dbContext.Entry(requestList).Property("Description").IsModified = true;
+            //dbContext.SaveChanges();
             return requestList.Id;
         }
     }

@@ -50,3 +50,17 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+//TODO: UPDATE HttpRequestList views to have every needed field
+//TODO: CHECK AND CLEAN request list route, from view to repository
+//TODO: Implement missing crud operations for httprequest
+//TODO: CREATE Builder for http request from db entry
+//TODO: update httprequestsender to use httpclient factory
+//TODO: create http response models
+//TODO: repo and service for http response 
+//TODO: design views and controllers for response
+//TODO: automate saving response
+//TODO: Use fluid validation
+//TODO: CREATE TESTS FOR SERVICES
+//TODO: Move to user auth 
+
