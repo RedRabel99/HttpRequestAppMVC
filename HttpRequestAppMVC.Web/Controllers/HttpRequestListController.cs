@@ -1,11 +1,17 @@
-﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using FormHelper;
+using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
+using HttpRequestAppMVC.Web.Helpers;
 using HttpRequestAppMVC.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HttpRequestAppMVC.Web.Controllers;
 
-public class HttpRequestListController(IHttpRequestListService httpRequestListService) : Controller
+public class HttpRequestListController(
+    IHttpRequestListService httpRequestListService,
+    IValidator<CreateHttpRequestListVm> validator) : Controller
 {
     [HttpGet]
     public IActionResult Index()
@@ -28,11 +34,15 @@ public class HttpRequestListController(IHttpRequestListService httpRequestListSe
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    //[FormValidator]
     public IActionResult Create(CreateHttpRequestListVm model)
     {
-        if (!ModelState.IsValid)
+        ValidationResult result = validator.Validate(model);
+        if (!result.IsValid)
+        {
+            result.AddToModelState(ModelState);
             return View(model);
+        }
         var id = httpRequestListService.CreateHttpRequestList(model);
         return RedirectToAction(nameof(Details), new { id });
     }

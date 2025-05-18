@@ -1,7 +1,7 @@
 ﻿@model HttpRequestAppMVC.Application.ViewModels.HttpRequests.NewHttpRequestVm
 
 @{
-    ViewData["Title"] = "NewHttpRequest";
+    ViewData["Title"] = "CreateHttpRequest";
 }
 
 <h1>NewHttpRequest</h1>
@@ -45,7 +45,7 @@
                 <input type="button" id="add-header" value="Add header" class="btn btn-secondary" />
 
 
-                <input type="submit" name="action" value="send" class="btn btn-primary" />
+                <input type="submit" name="SubmitAction" value="send" class="btn btn-primary" />
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">
                     Open Modal
                 </button>
@@ -70,7 +70,7 @@
                                 <!-- AJAX will load the partial here -->
                             </div>
 
-                            <button type="submit" name="action" value="save" class="btn btn-primary" onclick="console.log('SAVE CLICKED')" />/>
+                            <button type="submit" name="SubmitAction" value="save" class="btn btn-primary" onclick="console.log('SAVE CLICKED')" />/>
 
                         </div>
                     </div>
@@ -145,7 +145,7 @@
             } else {
                 // Fallback if preloaded content isn't ready
                 $('#request-list-select-container').html('<div class="placeholder-select">Loading...</div>');
-                $.get('/HttpRequestList/CreateSelectedList', function (html) {
+                $.get('/HttpRequestList/CreateSelectedRequestList', function (html) {
                     $('#request-list-select-container').html(html);
                 });
             }

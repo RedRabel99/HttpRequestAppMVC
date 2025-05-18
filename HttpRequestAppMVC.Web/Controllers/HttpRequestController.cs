@@ -6,7 +6,6 @@ namespace HttpRequestAppMVC.Web.Controllers
 {
     public class HttpRequestController(IHttpRequestService httpRequestService) : Controller
     {
-        private readonly IHttpRequestService httpRequestService = httpRequestService;
 
         public IActionResult Index() { 
             return View();
@@ -20,7 +19,7 @@ namespace HttpRequestAppMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult NewHttpRequest()
+        public IActionResult CreateHttpRequest()
         {
             var model = new NewHttpRequestVm { HttpRequest = new HttpRequestVm() };
             model.HttpRequest.HttpRequestHeaders.Add(
@@ -34,23 +33,24 @@ namespace HttpRequestAppMVC.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewHttpRequest(NewHttpRequestVm newHttpRequest, string action)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> NewHttpRequest(NewHttpRequestVm newHttpRequest)
         {
             if (!ModelState.IsValid) 
             {
                 return View(newHttpRequest); 
             }
 
-            if (action == "send")
+            if (newHttpRequest.SubmitAction == "send")
             {
                 newHttpRequest.HttpResponse = await httpRequestService.SendHttpRequest(newHttpRequest.HttpRequest);
                 return View(newHttpRequest);
             }
 
-            if(action == "save")
+            if(newHttpRequest.SubmitAction == "save")
             {
                 var id = httpRequestService.AddHttpRequest(newHttpRequest.HttpRequest);
-                return RedirectToAction("Details", new {id});
+                return RedirectToAction(nameof(Details), new {id});
             }
             return View(newHttpRequest);
         }

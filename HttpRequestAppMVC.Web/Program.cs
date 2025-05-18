@@ -1,7 +1,9 @@
+using FluentValidation;
 using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
 using HttpRequestAppMVC.Application.Services;
 using HttpRequestAppMVC.Application.Services.HttpRequestServices;
+using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
 using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Infrastructure;
 using HttpRequestAppMVC.Infrastructure.Repositories;
@@ -19,6 +21,7 @@ builder.Services.AddTransient<IHttpRequestRepository, HttpRequestRepository>();
 builder.Services.AddTransient<IHttpRequestListRepository, HttpRequestListRepository>();
 builder.Services.AddTransient<IHttpRequestListService, HttpRequestListService>();
 builder.Services.AddTransient<IHttpHeaderService, HttpHeaderService>();
+builder.Services.AddTransient<IValidator<CreateHttpRequestListVm>, CreateHttpRequestListVmValidator>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -51,8 +54,7 @@ app.MapControllerRoute(
 
 app.Run();
 
-//TODO: UPDATE HttpRequestList views to have every needed field
-//TODO: CHECK AND CLEAN request list route, from view to repository
+
 //TODO: Implement missing crud operations for httprequest
 //TODO: CREATE Builder for http request from db entry
 //TODO: update httprequestsender to use httpclient factory

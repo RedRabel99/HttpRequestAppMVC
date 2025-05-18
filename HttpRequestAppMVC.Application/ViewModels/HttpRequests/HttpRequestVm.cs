@@ -2,23 +2,21 @@
 using HttpRequestAppMVC.Application.Mapping;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
 using HttpRequestAppMVC.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 
 public class HttpRequestVm : IMapFrom<HttpRequest>
 {
     public Guid Id { get; set; }
+    [ValidateNever]
     public string Name { get; set; }
     public string Url { get; set; } = string.Empty;
     public string Method { get; set; }
     public string Body { get; set; } = string.Empty;
+    [ValidateNever]
     public string RequestListId { get; set; }
+    [ValidateNever]
     public HttpRequestListVm HttpRequestList {  get; set; }
     public List<HttpRequestHeaderVm> HttpRequestHeaders { get; set; } = new List<HttpRequestHeaderVm>();
 
@@ -46,10 +44,5 @@ public class HttpRequestVm : IMapFrom<HttpRequest>
                     )
                 )
             );
-        //profile.CreateMap<HttpRequestVm, HttpRequest>()
-        //    .ForMember(
-        //    dest => dest.HttpRequestHeaders,
-        //    opt => opt.MapFrom(
-        //        src => src.HttpRequestHeaders.Select(rh => new Http()));
     }
 }
