@@ -1,11 +1,7 @@
 ﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using HttpRequestAppMVC.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HttpRequestAppMVC.Application.Services.HttpRequestServices;
 
@@ -27,7 +23,7 @@ public class RequestSenderService(IRequestSenderRepository requestSenderReposito
     //    return model;
     //}
 
-    public async Task<HttpRequestResponseVm> SendRequest(HttpRequestVm model)
+    public async Task<HttpRequestResponseVm> SendRequest(CreateHttpRequestVm model)
     {
         var request = new HttpRequestMessage(new HttpMethod(model.Method), model.Url);
         if (!string.IsNullOrEmpty(model.Body) && (model.Method == "POST" || model.Method == "PUT"))

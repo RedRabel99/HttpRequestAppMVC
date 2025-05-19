@@ -4,6 +4,7 @@ using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
 using HttpRequestAppMVC.Application.Services;
 using HttpRequestAppMVC.Application.Services.HttpRequestServices;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
+using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Infrastructure;
 using HttpRequestAppMVC.Infrastructure.Repositories;
@@ -22,6 +23,7 @@ builder.Services.AddTransient<IHttpRequestListRepository, HttpRequestListReposit
 builder.Services.AddTransient<IHttpRequestListService, HttpRequestListService>();
 builder.Services.AddTransient<IHttpHeaderService, HttpHeaderService>();
 builder.Services.AddTransient<IValidator<CreateHttpRequestListVm>, CreateHttpRequestListVmValidator>();
+builder.Services.AddTransient<IValidator<CreateHttpRequestVm>, CreateHttpRequestVmValidator>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

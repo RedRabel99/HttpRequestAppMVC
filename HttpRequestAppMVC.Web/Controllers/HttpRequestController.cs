@@ -1,10 +1,16 @@
-﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
+using HttpRequestAppMVC.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace HttpRequestAppMVC.Web.Controllers
 {
-    public class HttpRequestController(IHttpRequestService httpRequestService) : Controller
+    public class HttpRequestController(
+        IHttpRequestService httpRequestService,
+        IValidator<CreateHttpRequestVm> validator) : Controller
     {
 
         public IActionResult Index() { 
@@ -21,11 +27,12 @@ namespace HttpRequestAppMVC.Web.Controllers
         [HttpGet]
         public IActionResult CreateHttpRequest()
         {
-            var model = new NewHttpRequestVm { HttpRequest = new HttpRequestVm() };
-            model.HttpRequest.HttpRequestHeaders.Add(
-                new HttpRequestHeaderVm { Header = "content-type", Value="xd"}
+
+            var model = new CreateHttpRequestVm();
+            model.HttpRequestHeaders.Add(
+                new HttpRequestHeaderVm { Header = "content-type", Value = "xd" }
                 );
-            model.HttpRequest.HttpRequestHeaders.Add(
+            model.HttpRequestHeaders.Add(
                 new HttpRequestHeaderVm { Header = "content-type2", Value = "xd" }
                 );
 
@@ -33,26 +40,28 @@ namespace HttpRequestAppMVC.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> NewHttpRequest(NewHttpRequestVm newHttpRequest)
+        public async Task<IActionResult> CreateHttpRequest(CreateHttpRequestVm httpRequest)
         {
-            if (!ModelState.IsValid) 
+            ValidationResult result = validator.Validate(httpRequest);
+
+            if (!result.IsValid)
             {
-                return View(newHttpRequest); 
+                result.AddToModelState(ModelState);
+                return View(httpRequest);
             }
 
-            if (newHttpRequest.SubmitAction == "send")
+            if (httpRequest.SubmitAction == "send")
             {
-                newHttpRequest.HttpResponse = await httpRequestService.SendHttpRequest(newHttpRequest.HttpRequest);
-                return View(newHttpRequest);
+                httpRequest.HttpResponse = await httpRequestService.SendHttpRequest(httpRequest);
+                return View(httpRequest);
             }
 
-            if(newHttpRequest.SubmitAction == "save")
+            if(httpRequest.SubmitAction == "save")
             {
-                var id = httpRequestService.AddHttpRequest(newHttpRequest.HttpRequest);
+                var id = httpRequestService.AddHttpRequest(httpRequest);
                 return RedirectToAction(nameof(Details), new {id});
             }
-            return View(newHttpRequest);
+            return View(httpRequest);
         }
     }
 }

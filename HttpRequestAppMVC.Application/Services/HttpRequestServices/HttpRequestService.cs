@@ -23,7 +23,7 @@ public class HttpRequestService : IHttpRequestService
         
     }
 
-    public Guid AddHttpRequest(HttpRequestVm httpRequestVm)
+    public Guid AddHttpRequest(CreateHttpRequestVm httpRequestVm)
     {
         var x = new List<HttpRequestHeader>();
         foreach(var requestheader in httpRequestVm.HttpRequestHeaders)
@@ -65,7 +65,7 @@ public class HttpRequestService : IHttpRequestService
         httpRequestRepository.DeleteHttpRequest(httpRequestVm.Id);
     }
 
-    public async Task<HttpRequestResponseVm> SendHttpRequest(HttpRequestVm httpRequestVm)
+    public async Task<HttpRequestResponseVm> SendHttpRequest(CreateHttpRequestVm httpRequestVm)
     {
         var response = await requestSenderService.SendRequest(httpRequestVm);
         return response;
