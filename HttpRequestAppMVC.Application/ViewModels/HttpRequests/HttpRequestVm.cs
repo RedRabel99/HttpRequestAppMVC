@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using HttpRequestAppMVC.Application.Mapping;
 using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
 using HttpRequestAppMVC.Domain.Models;
@@ -8,17 +9,15 @@ namespace HttpRequestAppMVC.Application.ViewModels.HttpRequests;
 
 public class HttpRequestVm : IMapFrom<HttpRequest>
 {
-    public Guid Id { get; set; }
-    [ValidateNever]
+    public Guid Id { get; init; }
     public string Name { get; set; }
-    public string Url { get; set; } = string.Empty;
+    public string Url { get; set; } 
     public string Method { get; set; }
-    public string Body { get; set; } = string.Empty;
-    [ValidateNever]
-    public string RequestListId { get; set; }
-    [ValidateNever]
-    public HttpRequestListVm HttpRequestList {  get; set; }
-    public List<HttpRequestHeaderVm> HttpRequestHeaders { get; set; } = new List<HttpRequestHeaderVm>();
+    public string? Body { get; set; }
+    
+    public Guid RequestListId { get; set; }
+    public List<HttpRequestHeaderVm> HttpRequestHeaders { get; set; }
+    public List<Guid> HeadersToDelete { get; set; } = new List<Guid>();
 
     public void Mapping(Profile profile)
     {
@@ -30,9 +29,11 @@ public class HttpRequestVm : IMapFrom<HttpRequest>
                     .Select(
                         x => new HttpRequestHeaderVm
                         {
+                            Id = x.Id,
                             Header = x.HttpHeader.Name,
                             Value = x.HttpHeaderValue.Value,
                         })));
+
         profile.CreateMap<HttpRequestVm, HttpRequest>()
             .ForMember(dest => dest.HttpRequestHeaders,
                 opt => opt.MapFrom(src => src.HttpRequestHeaders.Select(x =>
@@ -44,5 +45,17 @@ public class HttpRequestVm : IMapFrom<HttpRequest>
                     )
                 )
             );
+    }
+}
+
+public class EditHttpRequestVmValidator : AbstractValidator<HttpRequestVm>
+{
+    public EditHttpRequestVmValidator()
+    {
+        string[] methods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
+        RuleFor(r => r.Url).NotEmpty().MaximumLength(2048); //maximum acceptable size of urls
+        RuleFor(r => r.Method).NotEmpty().Must(method => methods.Contains(method.ToUpperInvariant()));
+        RuleFor(r => r.Name).NotEmpty().MaximumLength(100);
+        RuleFor(r => r.RequestListId).NotNull();
     }
 }

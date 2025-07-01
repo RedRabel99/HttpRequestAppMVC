@@ -1,0 +1,19 @@
+﻿
+@model SelectedHttpRequestListVm
+<div class="form-group">
+    <label for="RequestListId" class="control-label">Request List</label>
+    <select id="RequestListId" name="RequestListId" class="form-control">
+        <option value="">--Select Request List--</option>
+        @foreach(var list in Model.RequestLists)
+        {
+            @if (list.Id == Model.SelectedRequestListId)
+            {
+                <option value="@list.Id" selected>@list.Name</option>
+            }
+            else
+            {
+                <option value="@list.Id">@list.Name</option>
+            }
+        }
+    </select>
+</div>

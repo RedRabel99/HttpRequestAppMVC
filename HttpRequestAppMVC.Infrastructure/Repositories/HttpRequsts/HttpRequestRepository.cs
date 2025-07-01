@@ -32,13 +32,27 @@ public class HttpRequestRepository(AppDbContext dbContext) : IHttpRequestReposit
 
     public HttpRequest GetHttpRequestById(Guid id)
     {
-        var request = dbContext.HttpRequests.FirstOrDefault(i => i.Id == id);
+        var request = dbContext.HttpRequests
+            .Include(r => r.HttpRequestHeaders)
+                .ThenInclude(h => h.HttpHeader)
+            .Include(r => r.HttpRequestHeaders)
+                .ThenInclude(h => h.HttpHeaderValue)
+            .FirstOrDefault(i => i.Id == id);
         return request;
     }
 
     public Guid UpdateHttpRequest(HttpRequest httpRequest)
     {
-        throw new NotImplementedException();
+        dbContext.Attach(httpRequest);
+        dbContext.Entry(httpRequest).Property(r => r.Name).IsModified = true;
+        dbContext.Entry(httpRequest).Property(r => r.Url).IsModified = true;
+        dbContext.Entry(httpRequest).Property(r => r.Method).IsModified = true;
+        dbContext.Entry(httpRequest).Property(r => r.Body).IsModified = true;
+        dbContext.Entry(httpRequest).Property(r => r.RequestListId).IsModified = true;
+        //dbContext.Entry(httpRequest).Property(r => r.HttpRequestHeaders).IsModified = true;
+        dbContext.Entry(httpRequest).Property(r => r.UpdatedAt).IsModified = true;
+        dbContext.SaveChanges();
+        return httpRequest.Id;
     }
 
     public IQueryable<HttpRequest> GetAllHttpRequests()
@@ -83,5 +97,22 @@ public class HttpRequestRepository(AppDbContext dbContext) : IHttpRequestReposit
         dbContext.HttpHeaderValues.Add(httpHeaderValue);
         dbContext.SaveChanges();
         return httpHeaderValue;
+    }
+
+    public void DeleteHttpRequestHeader(Guid id)
+    {
+        var header = dbContext.HttpRequestHeaders.Find(id);
+        if (header != null)
+        {
+            dbContext.HttpRequestHeaders.Remove(header);
+            dbContext.SaveChanges();
+        }
+    }
+
+    public HttpRequestHeader CreateHttpRequestHeader(HttpRequestHeader requestHeader)
+    {
+        dbContext.HttpRequestHeaders.Add(requestHeader);
+        dbContext.SaveChanges();
+        return requestHeader;
     }
 }

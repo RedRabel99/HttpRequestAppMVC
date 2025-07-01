@@ -127,12 +127,12 @@
         //     });
         // });
                 $(document).ready(function() {
-            $.get('/HttpRequestList/CreateSelectedList', function (html) {
+                    $.get('/HttpRequestList/CreateSelectedList', function (html){
                 // Store the HTML in a hidden container
-                $('<div id="preloaded-content" style="display:none;"></div>')
-                    .html(html)
-                    .appendTo('body');
-            });
+                    $('<div id="preloaded-content" style="display:none;"></div>')
+                        .html(html)
+                        .appendTo('body');
+                });
         });
 
         // When modal opens, use the preloaded content if available

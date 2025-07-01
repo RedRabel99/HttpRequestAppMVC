@@ -24,7 +24,8 @@ builder.Services.AddTransient<IHttpRequestListService, HttpRequestListService>()
 builder.Services.AddTransient<IHttpHeaderService, HttpHeaderService>();
 builder.Services.AddTransient<IValidator<CreateHttpRequestListVm>, CreateHttpRequestListVmValidator>();
 builder.Services.AddTransient<IValidator<CreateHttpRequestVm>, CreateHttpRequestVmValidator>();
-
+builder.Services.AddTransient<IValidator<HttpRequestVm>, EditHttpRequestVmValidator>();
+builder.Services.AddTransient<IHttpRequestHeaderRepository, HttpRequestHeaderRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -52,7 +53,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=HttpRequestList}/{action=Index}/{id?}");
 
 app.Run();
 
@@ -66,5 +67,6 @@ app.Run();
 //TODO: automate saving response
 //TODO: Use fluid validation
 //TODO: CREATE TESTS FOR SERVICES
+//TODO: clean up views
 //TODO: Move to user auth 
 

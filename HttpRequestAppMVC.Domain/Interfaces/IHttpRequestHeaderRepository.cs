@@ -1,18 +1,13 @@
 ﻿using HttpRequestAppMVC.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HttpRequestAppMVC.Domain.Interfaces;
 
 public interface IHttpRequestHeaderRepository
 {
-    public Guid CreateHttpRequestHeader(HttpRequestHeader requestHeader);
+    public HttpRequestHeader CreateHttpRequestHeader(HttpRequestHeader requestHeader);
     public IQueryable<HttpRequestHeader> GetHttpRequestHeadersByHttpRequestId(Guid id);
     public HttpRequestHeader GetHttpRequestHeaderById(Guid id);
-    public Guid UpdateHttpRequestHeader(HttpRequestHeader requestHeader);
+    public HttpRequestHeader UpdateHttpRequestHeader(HttpRequestHeader requestHeader);
     public void DeleteHttpRequestHeader(Guid id);
 
     public Guid CreateHttpHeader(HttpHeader httpHeader);

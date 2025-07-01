@@ -12,9 +12,9 @@ public interface IHttpRequestService
 {
     public Guid AddHttpRequest(CreateHttpRequestVm httpRequestVm);
     public HttpRequestVm GetHttpRequestById(Guid id);
-    public void RemoveHttpRequest(HttpRequestVm httpRequestVm);
+    public void RemoveHttpRequest(Guid id);
     public List<HttpRequestVm> GetAllHttpRequestByHttpRequestListId(Guid requestListId);
     public HttpRequestResponseVm GetByIdAndSendRequest(Guid id);
-
     public Task<HttpRequestResponseVm> SendHttpRequest(CreateHttpRequestVm httpRequestVm);
+    public Guid UpdateHttpRequest(HttpRequestVm httpRequest);
 }

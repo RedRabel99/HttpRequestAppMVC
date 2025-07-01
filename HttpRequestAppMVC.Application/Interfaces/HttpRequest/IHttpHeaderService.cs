@@ -7,4 +7,5 @@ public interface IHttpHeaderService
 {
     public HttpHeader GetOrCreateHttpHeader(string name);
     public HttpHeaderValue GetOrCreateHeaderValue(string value);
+    List<HttpRequestHeader> UpdateHeaders(List<HttpRequestHeaderVm> httpRequestHeaders, List<Guid> headersToDelete, Guid id);
 }

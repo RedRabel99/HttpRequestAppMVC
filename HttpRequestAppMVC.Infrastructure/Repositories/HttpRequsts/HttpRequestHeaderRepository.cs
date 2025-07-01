@@ -26,11 +26,11 @@ public class HttpRequestHeaderRepository(AppDbContext appDbContext) : IHttpReque
         return httpHeaderValue.Id;
     }
 
-    public Guid CreateHttpRequestHeader(HttpRequestHeader requestHeader)
+    public HttpRequestHeader CreateHttpRequestHeader(HttpRequestHeader requestHeader)
     {
         appDbContext.Add(requestHeader);
         appDbContext.SaveChanges();
-        return requestHeader.Id;
+        return requestHeader;
     }
 
     public void DeleteHttpRequestHeader(Guid id)
@@ -111,12 +111,12 @@ public class HttpRequestHeaderRepository(AppDbContext appDbContext) : IHttpReque
         return httpRequestHeaders;
     }
 
-    public Guid UpdateHttpRequestHeader(HttpRequestHeader requestHeader)
+    public HttpRequestHeader UpdateHttpRequestHeader(HttpRequestHeader requestHeader)
     {
         appDbContext.Attach(requestHeader);
         appDbContext.Entry(requestHeader).Property("HttpHeaderId").IsModified = true;
         appDbContext.Entry(requestHeader).Property("HttpHeaderValueId").IsModified = true;
         appDbContext.SaveChanges();
-        return requestHeader.Id;
+        return requestHeader;
     }
 }

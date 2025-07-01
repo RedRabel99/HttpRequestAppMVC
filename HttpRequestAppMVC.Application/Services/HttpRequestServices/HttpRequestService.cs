@@ -41,6 +41,22 @@ public class HttpRequestService : IHttpRequestService
         return id;
     }
 
+    public Guid UpdateHttpRequest(HttpRequestVm httpRequest)
+    {
+        //TODO: refactor updating
+
+        var model = mapper.Map<HttpRequest>(httpRequest);
+        var id = httpRequestRepository.UpdateHttpRequest(model);
+
+        var newHeaders = headerService.UpdateHeaders(httpRequest.HttpRequestHeaders, httpRequest.HeadersToDelete, httpRequest.Id);
+
+        foreach (var header in newHeaders)
+        {
+            header.HttpRequestId = id;
+        }
+        return id;
+    }
+
     public List<HttpRequestVm> GetAllHttpRequestByHttpRequestListId(Guid requestListId)
     {
         var httpRequestList = httpRequestRepository.GetHttpRequestsByRequestListId(requestListId);
@@ -60,9 +76,9 @@ public class HttpRequestService : IHttpRequestService
         return httpRequestVm;
     }
 
-    public void RemoveHttpRequest(HttpRequestVm httpRequestVm)
+    public void RemoveHttpRequest(Guid id)
     {
-        httpRequestRepository.DeleteHttpRequest(httpRequestVm.Id);
+        httpRequestRepository.DeleteHttpRequest(id);
     }
 
     public async Task<HttpRequestResponseVm> SendHttpRequest(CreateHttpRequestVm httpRequestVm)

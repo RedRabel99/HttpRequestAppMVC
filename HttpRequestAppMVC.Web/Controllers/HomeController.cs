@@ -15,8 +15,7 @@ namespace HttpRequestAppMVC.Web.Controllers
 
         public IActionResult Index()
         {
-            HttpMethod method = HttpMethod.Get;
-            return View();
+            return RedirectToAction(nameof(HttpRequestController.Index));
         }
 
         public IActionResult Privacy()

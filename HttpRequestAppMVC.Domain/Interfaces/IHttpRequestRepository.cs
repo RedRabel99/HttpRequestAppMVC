@@ -21,5 +21,6 @@ namespace HttpRequestAppMVC.Domain.Interfaces
 
         public HttpHeader AddHttpHeader(HttpHeader httpHeader);
         public HttpHeaderValue AddHttpHeaderValue(HttpHeaderValue httpHeaderValue);
+        void DeleteHttpRequestHeader(Guid headerToDeleteId);
     }
 }
