@@ -2,30 +2,30 @@
 using HttpRequestAppMVC.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HttpRequestAppMVC.Infrastructure.Repositories.HttpRequsts;
+namespace HttpRequestAppMVC.Infrastructure.Repositories.Requests;
 
-public class HttpRequestListRepository(AppDbContext dbContext) : IHttpRequestListRepository
+public class HttpRequestListRepository(AppDbContext dbContext) : IRequestListRepository
 {
-    public IQueryable<HttpRequestList> GetAllHttpRequestLists()
+    public IQueryable<RequestList> GetAllRequestLists()
     {
-        return dbContext.HttpRequestLists.Include(rl => rl.HttpRequests);
+        return dbContext.RequestLists.Include(rl => rl.Requests);
     }
 
-    public HttpRequestList? GetHttpRequestListById(Guid id)
+    public RequestList? GetRequestListById(Guid id)
     {
-        return dbContext.HttpRequestLists
-            .Include(rl => rl.HttpRequests)
+        return dbContext.RequestLists
+            .Include(rl => rl.Requests)
             .FirstOrDefault(r => r.Id == id);
     }
 
-    public Guid CreateHttpRequestList(HttpRequestList requestList)
+    public Guid CreateRequestList(RequestList requestList)
     {
-        dbContext.HttpRequestLists.Add(requestList);
+        dbContext.RequestLists.Add(requestList);
         dbContext.SaveChanges();
         return requestList.Id;
     }
 
-    public Guid UpdateHttpRequestList(HttpRequestList requestList)
+    public Guid UpdateRequestList(RequestList requestList)
     {
         dbContext.Attach(requestList);
         dbContext.Entry(requestList).Property(r => r.Name).IsModified = true;
@@ -34,12 +34,12 @@ public class HttpRequestListRepository(AppDbContext dbContext) : IHttpRequestLis
         return requestList.Id;
     }
 
-    public void DeleteHttpRequestList(Guid id)
+    public void DeleteRequestList(Guid id)
     {
-        var httpRequestList = dbContext.HttpRequestLists.Find(id);
+        var httpRequestList = dbContext.RequestLists.Find(id);
         if (httpRequestList != null)
         {
-            dbContext.HttpRequestLists.Remove(httpRequestList);
+            dbContext.RequestLists.Remove(httpRequestList);
             dbContext.SaveChanges();
         }
     }

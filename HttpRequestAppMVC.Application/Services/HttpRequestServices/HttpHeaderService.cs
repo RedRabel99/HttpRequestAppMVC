@@ -1,65 +1,65 @@
-﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
-using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
+﻿using HttpRequestAppMVC.Application.Interfaces.Requests;
+using HttpRequestAppMVC.Application.ViewModels.Requests;
 using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Domain.Models;
 
-namespace HttpRequestAppMVC.Application.Services.HttpRequestServices;
+namespace HttpRequestAppMVC.Application.Services.RequestServices;
 
 public class HttpHeaderService(
-    IHttpRequestRepository httpRequestRepository,
-    IHttpRequestHeaderRepository httpRequestHeaderRepository
-    ) : IHttpHeaderService
+    IRequestRepository requestRepository,
+    IRequestHeaderRepository requestHeaderRepository
+    ) : IHeaderService
 {
-    public HttpHeaderValue GetOrCreateHeaderValue(string value)
+    public HeaderValue GetOrCreateHeaderValue(string value)
     {
-        var headerValue = httpRequestRepository.GetHttpHeaderValueByValue(value);
+        var headerValue = requestRepository.GetHeaderValueByValue(value);
         if (headerValue != null)
         {
             return headerValue;
         }
-        var newHeaderValue = new HttpHeaderValue { Value = value, IsCommon = false };
-        httpRequestRepository.AddHttpHeaderValue(newHeaderValue);
+        var newHeaderValue = new HeaderValue { Value = value, IsCommon = false };
+        requestRepository.AddHeaderValue(newHeaderValue);
         return newHeaderValue;
     }
 
-    public HttpHeader GetOrCreateHttpHeader(string name)
+    public Header GetOrCreateHttpHeader(string name)
     {
-        var header = httpRequestRepository.GetHttpHeaderByName(name);
+        var header = requestRepository.GetHeaderByName(name);
         if (header != null)
         {
             return header;
         }
-        var newHeader = new HttpHeader { Name = name, IsCommon = false };
-        httpRequestRepository.AddHttpHeader(newHeader);
+        var newHeader = new Header { Name = name, IsCommon = false };
+        requestRepository.AddHeader(newHeader);
         return newHeader;
     }
 
-    public List<HttpRequestHeader> UpdateHeaders(List<HttpRequestHeaderVm> httpRequestHeaders, List<Guid> headersToDelete, Guid id)
+    public List<RequestHeader> UpdateHeaders(List<RequestHeaderVm> requestHeaders, List<Guid> headersToDelete, Guid id)
     {
         foreach(var headerToDeleteId in headersToDelete)
         {
-           httpRequestRepository.DeleteHttpRequestHeader(headerToDeleteId);
+           requestRepository.DeleteRequestHeader(headerToDeleteId);
         }
-        var resultRequestHeaders = new List<HttpRequestHeader>();
-        foreach(var header in httpRequestHeaders)
+        var resultRequestHeaders = new List<RequestHeader>();
+        foreach(var header in requestHeaders)
         {
-            var httpHeader = httpRequestHeaderRepository.GetHttpRequestHeaderById(header.Id);
+            var httpHeader = requestHeaderRepository.GetRequestHeaderById(header.Id);
             if (httpHeader is not null)
             {
-                httpHeader.HttpHeaderId = GetOrCreateHttpHeader(header.Header).Id;
-                httpHeader.HttpHeaderValueId = GetOrCreateHeaderValue(header.Value).Id;
-                httpHeader.HttpRequestId = id;
-                var newHeader = httpRequestHeaderRepository.UpdateHttpRequestHeader(httpHeader);
+                httpHeader.HeaderId = GetOrCreateHttpHeader(header.Header).Id;
+                httpHeader.HeaderValueId = GetOrCreateHeaderValue(header.Value).Id;
+                httpHeader.RequestId = id;
+                var newHeader = requestHeaderRepository.UpdateRequestHeader(httpHeader);
                 resultRequestHeaders.Add(newHeader);
 
             }
             else
             {
-                var newHttpHeader = new HttpRequestHeader();
-                newHttpHeader.HttpHeaderId = GetOrCreateHttpHeader(header.Header).Id;
-                newHttpHeader.HttpHeaderValueId = GetOrCreateHeaderValue(header.Value).Id;
-                newHttpHeader.HttpRequestId = id;
-                newHttpHeader = httpRequestHeaderRepository.CreateHttpRequestHeader(newHttpHeader);
+                var newHttpHeader = new RequestHeader();
+                newHttpHeader.HeaderId = GetOrCreateHttpHeader(header.Header).Id;
+                newHttpHeader.HeaderValueId = GetOrCreateHeaderValue(header.Value).Id;
+                newHttpHeader.RequestId = id;
+                newHttpHeader = requestHeaderRepository.CreateRequestHeader(newHttpHeader);
                 resultRequestHeaders.Add(newHttpHeader);
             }
         }

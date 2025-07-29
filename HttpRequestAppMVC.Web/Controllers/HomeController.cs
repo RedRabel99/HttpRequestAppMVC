@@ -15,7 +15,7 @@ namespace HttpRequestAppMVC.Web.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction(nameof(HttpRequestController.Index));
+            return RedirectToAction(nameof(RequestController.Index));
         }
 
         public IActionResult Privacy()

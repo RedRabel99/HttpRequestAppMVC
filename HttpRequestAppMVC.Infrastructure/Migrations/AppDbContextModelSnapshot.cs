@@ -22,7 +22,7 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpHeader", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.Header", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HttpHeaders");
+                    b.ToTable("Headers");
 
                     b.HasData(
                         new
@@ -64,7 +64,7 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpHeaderValue", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HeaderValue", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,10 +85,10 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HttpHeaderValues");
+                    b.ToTable("HeaderValues");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpRequest", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.Request", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,10 +122,10 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
 
                     b.HasIndex("RequestListId");
 
-                    b.ToTable("HttpRequests");
+                    b.ToTable("Requests");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpRequestHeader", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.RequestHeader", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,13 +134,13 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("HttpHeaderId")
+                    b.Property<Guid>("HeaderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("HttpHeaderValueId")
+                    b.Property<Guid>("HeaderValueId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("HttpRequestId")
+                    b.Property<Guid>("RequestId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -148,16 +148,16 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HttpHeaderId");
+                    b.HasIndex("HeaderId");
 
-                    b.HasIndex("HttpHeaderValueId");
+                    b.HasIndex("HeaderValueId");
 
-                    b.HasIndex("HttpRequestId");
+                    b.HasIndex("RequestId");
 
-                    b.ToTable("HttpRequestHeaders");
+                    b.ToTable("RequestHeaders");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpRequestList", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.RequestList", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -179,10 +179,10 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HttpRequestLists");
+                    b.ToTable("RequestLists");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpResponse", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.Response", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,7 +197,7 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
                     b.Property<DateTime>("ExecutedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("HttpRequestId")
+                    b.Property<Guid>("RequestId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ResponseBody")
@@ -212,9 +212,9 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HttpRequestId");
+                    b.HasIndex("RequestId");
 
-                    b.ToTable("HttpResponses");
+                    b.ToTable("Responses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -415,10 +415,10 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpRequest", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.Request", b =>
                 {
-                    b.HasOne("HttpRequestAppMVC.Domain.Models.HttpRequestList", "RequestList")
-                        .WithMany("HttpRequests")
+                    b.HasOne("HttpRequestAppMVC.Domain.Models.RequestList", "RequestList")
+                        .WithMany("Requests")
                         .HasForeignKey("RequestListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -426,42 +426,42 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
                     b.Navigation("RequestList");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpRequestHeader", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.RequestHeader", b =>
                 {
-                    b.HasOne("HttpRequestAppMVC.Domain.Models.HttpHeader", "HttpHeader")
-                        .WithMany("HttpRequestHeaders")
-                        .HasForeignKey("HttpHeaderId")
+                    b.HasOne("HttpRequestAppMVC.Domain.Models.Header", "Header")
+                        .WithMany("RequestHeaders")
+                        .HasForeignKey("HeaderId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("HttpRequestAppMVC.Domain.Models.HttpHeaderValue", "HttpHeaderValue")
-                        .WithMany("HttpRequestHeaders")
-                        .HasForeignKey("HttpHeaderValueId")
+                    b.HasOne("HttpRequestAppMVC.Domain.Models.HeaderValue", "HeaderValue")
+                        .WithMany("RequestHeaders")
+                        .HasForeignKey("HeaderValueId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("HttpRequestAppMVC.Domain.Models.HttpRequest", "HttpRequest")
-                        .WithMany("HttpRequestHeaders")
-                        .HasForeignKey("HttpRequestId")
+                    b.HasOne("HttpRequestAppMVC.Domain.Models.Request", "Request")
+                        .WithMany("RequestHeaders")
+                        .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("HttpHeader");
+                    b.Navigation("Header");
 
-                    b.Navigation("HttpHeaderValue");
+                    b.Navigation("HeaderValue");
 
-                    b.Navigation("HttpRequest");
+                    b.Navigation("Request");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpResponse", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.Response", b =>
                 {
-                    b.HasOne("HttpRequestAppMVC.Domain.Models.HttpRequest", "HttpRequest")
+                    b.HasOne("HttpRequestAppMVC.Domain.Models.Request", "Request")
                         .WithMany("ResponseHistory")
-                        .HasForeignKey("HttpRequestId")
+                        .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("HttpRequest");
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -515,26 +515,26 @@ namespace HttpRequestAppMVC.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpHeader", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.Header", b =>
                 {
-                    b.Navigation("HttpRequestHeaders");
+                    b.Navigation("RequestHeaders");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpHeaderValue", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HeaderValue", b =>
                 {
-                    b.Navigation("HttpRequestHeaders");
+                    b.Navigation("RequestHeaders");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpRequest", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.Request", b =>
                 {
-                    b.Navigation("HttpRequestHeaders");
+                    b.Navigation("RequestHeaders");
 
                     b.Navigation("ResponseHistory");
                 });
 
-            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.HttpRequestList", b =>
+            modelBuilder.Entity("HttpRequestAppMVC.Domain.Models.RequestList", b =>
                 {
-                    b.Navigation("HttpRequests");
+                    b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618
         }

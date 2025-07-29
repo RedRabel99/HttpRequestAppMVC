@@ -1,16 +1,16 @@
-﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
+﻿using HttpRequestAppMVC.Application.Interfaces.RequestLists;
 using HttpRequestAppMVC.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HttpRequestAppMVC.Web.ViewComponents;
 
-public class RequestListSelectorViewComponent(IHttpRequestListService httpRequestListService) : ViewComponent
+public class RequestListSelectorViewComponent(IRequestListService requestListService) : ViewComponent
 {
     public IViewComponentResult Invoke(Guid? requestListId)
     {
-        var model = new SelectedHttpRequestListVm
+        var model = new SelectedRequestListVm
         {
-            RequestLists = httpRequestListService.GetAllHttpRequestLists().HttpRequestLists,
+            RequestLists = requestListService.GetAllRequestLists().RequestLists,
             SelectedRequestListId = requestListId ?? Guid.Empty
         };
 

@@ -1,9 +1,9 @@
-﻿using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
-using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
+﻿using HttpRequestAppMVC.Application.Interfaces.Requests;
+using HttpRequestAppMVC.Application.ViewModels.Requests;
 using HttpRequestAppMVC.Domain.Interfaces;
 using System.Text;
 
-namespace HttpRequestAppMVC.Application.Services.HttpRequestServices;
+namespace HttpRequestAppMVC.Application.Services.RequestServices;
 
 public class RequestSenderService(IRequestSenderRepository requestSenderRepository) : IRequestSenderService
 {
@@ -23,7 +23,7 @@ public class RequestSenderService(IRequestSenderRepository requestSenderReposito
     //    return model;
     //}
 
-    public async Task<HttpRequestResponseVm> SendRequest(CreateHttpRequestVm model)
+    public async Task<RequestResponseVm> SendRequest(CreateRequestVm model)
     {
         var request = new HttpRequestMessage(new HttpMethod(model.Method), model.Url);
         if (!string.IsNullOrEmpty(model.Body) && (model.Method == "POST" || model.Method == "PUT"))
@@ -32,7 +32,7 @@ public class RequestSenderService(IRequestSenderRepository requestSenderReposito
         }
         var response = await requestSenderRepository.SendRequestAsync(request);
 
-        return new HttpRequestResponseVm
+        return new RequestResponseVm
         {
             StatusCode = (int)response.StatusCode,
             ResponseMessage = response.Content.ReadAsStringAsync().Result

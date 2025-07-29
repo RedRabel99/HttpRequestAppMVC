@@ -2,11 +2,11 @@
 
 namespace HttpRequestAppMVC.Domain.Interfaces;
 
-public interface IHttpRequestListRepository
+public interface IRequestListRepository
 {
-    public IQueryable<HttpRequestList> GetAllHttpRequestLists();
-    public HttpRequestList? GetHttpRequestListById(Guid id);
-    public Guid CreateHttpRequestList(HttpRequestList requestList);
-    public Guid UpdateHttpRequestList(HttpRequestList requestList);
-    public void DeleteHttpRequestList(Guid id);
+    public IQueryable<RequestList> GetAllRequestLists();
+    public RequestList? GetRequestListById(Guid id);
+    public Guid CreateRequestList(RequestList requestList);
+    public Guid UpdateRequestList(RequestList requestList);
+    public void DeleteRequestList(Guid id);
 }
