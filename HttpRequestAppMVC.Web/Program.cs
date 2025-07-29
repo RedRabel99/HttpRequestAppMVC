@@ -1,14 +1,14 @@
 using FluentValidation;
-using HttpRequestAppMVC.Application.Interfaces.HttpRequest;
-using HttpRequestAppMVC.Application.Interfaces.HttpRequestList;
+using HttpRequestAppMVC.Application.Interfaces.Requests;
+using HttpRequestAppMVC.Application.Interfaces.RequestLists;
 using HttpRequestAppMVC.Application.Services;
-using HttpRequestAppMVC.Application.Services.HttpRequestServices;
-using HttpRequestAppMVC.Application.ViewModels.HttpRequestLists;
-using HttpRequestAppMVC.Application.ViewModels.HttpRequests;
+using HttpRequestAppMVC.Application.Services.RequestServices;
+using HttpRequestAppMVC.Application.ViewModels.RequestLists;
+using HttpRequestAppMVC.Application.ViewModels.Requests;
 using HttpRequestAppMVC.Domain.Interfaces;
 using HttpRequestAppMVC.Infrastructure;
 using HttpRequestAppMVC.Infrastructure.Repositories;
-using HttpRequestAppMVC.Infrastructure.Repositories.HttpRequsts;
+using HttpRequestAppMVC.Infrastructure.Repositories.Requests;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,15 +17,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IRequestSenderRepository, RequestSenderRepository>();
 builder.Services.AddTransient<IRequestSenderService, RequestSenderService>();
-builder.Services.AddTransient<IHttpRequestService, HttpRequestService>();
-builder.Services.AddTransient<IHttpRequestRepository, HttpRequestRepository>();
-builder.Services.AddTransient<IHttpRequestListRepository, HttpRequestListRepository>();
-builder.Services.AddTransient<IHttpRequestListService, HttpRequestListService>();
-builder.Services.AddTransient<IHttpHeaderService, HttpHeaderService>();
-builder.Services.AddTransient<IValidator<CreateHttpRequestListVm>, CreateHttpRequestListVmValidator>();
-builder.Services.AddTransient<IValidator<CreateHttpRequestVm>, CreateHttpRequestVmValidator>();
-builder.Services.AddTransient<IValidator<HttpRequestVm>, EditHttpRequestVmValidator>();
-builder.Services.AddTransient<IHttpRequestHeaderRepository, HttpRequestHeaderRepository>();
+builder.Services.AddTransient<IRequestService, RequestService>();
+builder.Services.AddTransient<IRequestRepository, RequestRepository>();
+builder.Services.AddTransient<IRequestListRepository, HttpRequestListRepository>();
+builder.Services.AddTransient<IRequestListService, RequestListService>();
+builder.Services.AddTransient<IHeaderService, HttpHeaderService>();
+builder.Services.AddTransient<IValidator<CreateRequestListVm>, CreateRequestListVmValidator>();
+builder.Services.AddTransient<IValidator<CreateRequestVm>, CreateRequestVmValidator>();
+builder.Services.AddTransient<IValidator<RequestVm>, EditRequestVmValidator>();
+builder.Services.AddTransient<IRequestHeaderRepository, RequestHeaderRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -53,7 +53,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=HttpRequestList}/{action=Index}/{id?}");
+    pattern: "{controller=RequestList}/{action=Index}/{id?}");
 
 app.Run();
 

@@ -1,0 +1,155 @@
+﻿@model HttpRequestAppMVC.Application.ViewModels.Requests.CreateRequestVm
+
+@{
+    ViewData["Title"] = "CreateRequest";
+}
+
+<h1>NewHttpRequest</h1>
+
+<h4>NewHttpRequestVm</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>Url</label>
+                @Html.TextBoxFor(url => url.Url, new { @class = "form-control" })
+                <label>Method</label>
+                @Html.DropDownListFor(method => method.Method, new SelectList(new[] { "GET", "POST", "PUT", "DELETE" }), "--Select--", new { @class = "form-control" })
+                <label>Body</label>
+                @Html.TextAreaFor(body => body.Body, new { @class = "form-control" })
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Header</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="header-wrapper">
+
+                        @for (var i = 0; i < Model.RequestHeaders.Count(); i++)
+                        {
+                            <tr>
+                                <td> @Html.TextBoxFor(m => m.RequestHeaders[i].Header, new { @class = "form-control" })</td>
+                                <td> @Html.TextBoxFor(model => model.RequestHeaders[i].Value, new { @class = "form-control" })</td>
+                            </tr>
+                        }
+                        <tr class="header-template d-none">
+                            <td><input name="RequestHeaders[__index__].Header" class="form-control" /></td>
+                            <td><input name="RequestHeaders[__index__].Value" class="form-control" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <input type="button" id="add-header" value="Add header" class="btn btn-secondary" />
+
+
+                <input type="submit" name="SubmitAction" value="send" class="btn btn-primary" />
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">
+                    Open Modal
+                </button>
+
+            </div>
+            <div class="modal fade" id="saveModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label for="name" class="col-form-label">Name:</label>
+                                @Html.TextBoxFor(name => name.Name, new { @class = "form-control" })
+                            </div>
+                            <div id="request-list-select-container"></div>
+
+                            <button type="submit" name="SubmitAction" value="save" class="btn btn-primary" onclick="console.log('SAVE CLICKED')">Save</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    @if (Model.Response != null)
+    {
+        <div class="col-md-8 offset-md-1">
+            <div class="card mt-4 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">HTTP Response</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Status Code:</strong> @Model.Response.StatusCode</p>
+                    <label for="responseBody" class="form-label">Response Body</label>
+                    <textarea id="responseBody" readonly class="form-control" rows="12" style="white-space: pre-wrap;">@Model.Response.ResponseMessage</textarea>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+            let headerIndex = @Model.RequestHeaders.Count;
+            console.log(headerIndex);
+            $('#add-header').on('click', function(){
+                console.log("XDDD")
+                let $template = $('.header-template').clone();
+                let html = $template.html().replaceAll('__index__', headerIndex);
+                $('.header-wrapper').append('<tr>' + html + '</tr>');
+                headerIndex++;
+            });
+        })
+
+        $('#saveModal').on('show.bs.modal', function (event) {
+            console.log("chekcmodal");
+          var button = $(event.relatedTarget)
+          var recipient = button.data('whatever')
+          var modal = $(this)
+          modal.find('.modal-title').text('New message to ' + recipient)
+          modal.find('.modal-body input').val(recipient)
+        });
+
+        //         $('#saveModal').on('show.bs.modal', function () {
+        //     $.get('/HttpRequestList/CreateSelectedList', function (html) {
+        //         $('#request-list-select-container').html(html);
+        //     });
+        // });
+                $(document).ready(function() {
+                    $.get('/RequestList/CreateSelectedList', function (html){
+                // Store the HTML in a hidden container
+                    $('<div id="preloaded-content" style="display:none;"></div>')
+                        .html(html)
+                        .appendTo('body');
+                });
+        });
+
+        // When modal opens, use the preloaded content if available
+        $('#saveModal').on('show.bs.modal', function () {
+            if ($('#preloaded-content').length) {
+                $('#request-list-select-container').html($('#preloaded-content').html());
+                $('#preloaded-content').remove(); // Optional: remove after using
+            } else {
+                // Fallback if preloaded content isn't ready
+                $('#request-list-select-container').html('<div class="placeholder-select">Loading...</div>');
+                $.get('/RequestList/CreateSelectedRequestList', function (html) {
+                    $('#request-list-select-container').html(html);
+                });
+            }
+        });
+
+        console.log("Script in section");
+    </script>
+}
+

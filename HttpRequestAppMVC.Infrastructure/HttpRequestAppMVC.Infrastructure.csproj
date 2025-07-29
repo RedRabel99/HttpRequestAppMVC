@@ -20,4 +20,8 @@
     <ProjectReference Include="..\HttpRequestAppMVC.Domain\HttpRequestAppMVC.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
